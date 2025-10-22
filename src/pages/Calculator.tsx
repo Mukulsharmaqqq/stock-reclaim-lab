@@ -36,7 +36,7 @@ const Calculator = () => {
             <div>
               <h1 className="text-2xl font-bold">Inventory Valuation Calculator</h1>
               <p className="text-sm text-muted-foreground">
-                Professional inventory analysis and reporting
+                Discover how much capital is locked in obsolete stock—and unlock it in minutes
               </p>
             </div>
           </div>

@@ -173,12 +173,6 @@ export function Step2Results({ inputs, onBack }: Step2ResultsProps) {
       transition={{ duration: 0.5 }}
       className="space-y-8"
     >
-      {/* Back Button */}
-      <Button variant="outline" onClick={onBack} className="group">
-        <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-        Back to Inputs
-      </Button>
-
       {/* Key Metrics */}
       <div>
         <h2 className="text-3xl font-bold mb-6">Valuation Results</h2>
@@ -290,6 +284,19 @@ export function Step2Results({ inputs, onBack }: Step2ResultsProps) {
             Download PDF Report
           </Button>
         </Card>
+      </motion.div>
+
+      {/* Calculate New Valuation Button */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+        className="flex justify-center pt-4"
+      >
+        <Button variant="outline" onClick={onBack} size="lg" className="group">
+          <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+          Calculate New Valuation
+        </Button>
       </motion.div>
     </motion.div>
   );
