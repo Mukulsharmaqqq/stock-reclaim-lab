@@ -1,5 +1,43 @@
 import { InventoryInputs, CalculationResults, AgeReserve } from "@/types/calculator";
 
+/**
+ * INVENTORY VALUATION CALCULATOR LOGIC
+ * 
+ * This calculator helps manufacturers determine the adjusted value of slow-moving inventory
+ * using the Conservative Method (Lower of Cost or Market principle).
+ * 
+ * CALCULATION FLOW:
+ * 
+ * 1. COST BASIS
+ *    - Start with original cost
+ *    - Add freight, labor, and overhead percentages (if not already included)
+ *    - This is the total investment in the inventory
+ * 
+ * 2. NET REALIZABLE VALUE (NRV)
+ *    - Current market value - cost to complete - cost to sell
+ *    - This is what you'd actually receive if sold today
+ * 
+ * 3. AGE-ADJUSTED VALUE
+ *    - Apply reserve % based on age:
+ *      • < 3 months: 0% reserve (full value)
+ *      • 3-6 months: 10% reserve
+ *      • 6-12 months: 25% reserve
+ *      • > 12 months: 50% reserve
+ *    - Age-Adjusted Value = Cost Basis × (1 - Reserve %)
+ * 
+ * 4. ADJUSTED INVENTORY VALUE (Conservative Method)
+ *    - Take the LOWEST of: Cost Basis, NRV, Age-Adjusted Value
+ *    - This ensures the most conservative (safest) valuation
+ * 
+ * 5. WRITE-DOWN
+ *    - Write-Down = Cost Basis - Adjusted Inventory Value
+ *    - This is the loss that should be recognized
+ * 
+ * 6. CAPITAL LOCKED
+ *    - Capital Locked % = (Write-Down ÷ Cost Basis) × 100
+ *    - Shows what % of investment is tied up in devalued stock
+ */
+
 export const defaultAgeReserves: AgeReserve[] = [
   { minMonths: 0, maxMonths: 3, reservePercent: 0, label: "< 3 months" },
   { minMonths: 3, maxMonths: 6, reservePercent: 10, label: "3-6 months" },

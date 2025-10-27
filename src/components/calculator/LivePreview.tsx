@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { InventoryInputs } from "@/types/calculator";
 import { calculateInventoryValues, formatCurrency } from "@/lib/calculations";
 import { motion } from "framer-motion";
-import { TrendingDown, AlertCircle } from "lucide-react";
+import { TrendingDown } from "lucide-react";
 
 interface LivePreviewProps {
   inputs: InventoryInputs;
@@ -13,6 +13,7 @@ export function LivePreview({ inputs }: LivePreviewProps) {
 
   return (
     <motion.div
+      key={`${inputs.ageMonths}-${inputs.originalCost}-${inputs.currentMarketValue}`}
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
@@ -40,36 +41,56 @@ export function LivePreview({ inputs }: LivePreviewProps) {
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Cost Basis</span>
-                <span className="font-medium">{formatCurrency(results.costBasis, inputs.currency)}</span>
+                <motion.span 
+                  key={`cost-${results.costBasis}`}
+                  initial={{ scale: 1.1, color: "hsl(var(--primary))" }}
+                  animate={{ scale: 1, color: "hsl(var(--foreground))" }}
+                  transition={{ duration: 0.3 }}
+                  className="font-medium"
+                >
+                  {formatCurrency(results.costBasis, inputs.currency)}
+                </motion.span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Age Reserve Applied</span>
+                <motion.span 
+                  key={`age-${inputs.ageMonths}`}
+                  initial={{ scale: 1.1, color: "hsl(var(--warning))" }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="font-medium text-warning"
+                >
+                  {inputs.ageMonths < 3 ? '0%' : inputs.ageMonths < 6 ? '10%' : inputs.ageMonths < 12 ? '25%' : '50%'}
+                </motion.span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Write-Down</span>
-                <span className="font-medium text-destructive">
+                <motion.span 
+                  key={`writedown-${results.totalWriteDown}`}
+                  initial={{ scale: 1.1, color: "hsl(var(--destructive))" }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="font-medium text-destructive"
+                >
                   -{formatCurrency(results.totalWriteDown, inputs.currency)}
-                </span>
+                </motion.span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Capital Locked</span>
-                <span className="font-medium text-warning">
+                <motion.span 
+                  key={`capital-${results.capitalLockedPercent}`}
+                  initial={{ scale: 1.1, color: "hsl(var(--warning))" }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="font-medium text-warning"
+                >
                   {results.capitalLockedPercent.toFixed(1)}%
-                </span>
+                </motion.span>
               </div>
             </div>
-
-            {results.totalWriteDown > results.costBasis * 0.3 && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex items-start gap-3 p-4 rounded-lg bg-warning/15 border border-warning/30"
-              >
-                <AlertCircle className="h-5 w-5 text-warning flex-shrink-0" />
-                <p className="text-sm font-semibold text-foreground leading-relaxed">
-                  Significant write-down detected. Consider reviewing your inputs.
-                </p>
-              </motion.div>
-            )}
           </div>
         </div>
       </Card>
