@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { InventoryInputs, AgeReserve } from "@/types/calculator";
 import { defaultAgeReserves } from "@/lib/calculations";
@@ -66,10 +65,13 @@ export function Step1Input({ onNext }: Step1InputProps) {
       >
         {/* Basic Information */}
         <Card className="p-5 border-border shadow-sm">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
             <span className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">1</span>
             Basic Information
           </h3>
+          <p className="text-sm text-muted-foreground mb-4 pl-9">
+            This calculator is for a specific product line, batch, or item — not your entire inventory. Run it per category or item if needed.
+          </p>
           
           <div className="grid md:grid-cols-3 gap-4">
             <div className="space-y-2">
@@ -160,7 +162,7 @@ export function Step1Input({ onNext }: Step1InputProps) {
             <div className="space-y-4">
               <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                 <Label htmlFor="costsIncluded" className="cursor-pointer text-sm">
-                  Already included?
+                  Already included in original cost?
                 </Label>
                 <Switch
                   id="costsIncluded"
@@ -183,6 +185,7 @@ export function Step1Input({ onNext }: Step1InputProps) {
                     disabled={inputs.costsIncluded}
                     className="py-1"
                   />
+                  <p className="text-xs text-muted-foreground">Transport or import cost as a % of original cost</p>
                 </div>
 
                 <div className="space-y-2">
@@ -198,6 +201,7 @@ export function Step1Input({ onNext }: Step1InputProps) {
                     disabled={inputs.costsIncluded}
                     className="py-1"
                   />
+                  <p className="text-xs text-muted-foreground">Direct labor cost as a % of original cost</p>
                 </div>
 
                 <div className="space-y-2">
@@ -213,7 +217,12 @@ export function Step1Input({ onNext }: Step1InputProps) {
                     disabled={inputs.costsIncluded}
                     className="py-1"
                   />
+                  <p className="text-xs text-muted-foreground">Factory rent, power, admin, etc., as a % of original cost</p>
                 </div>
+
+                <p className="text-xs text-muted-foreground italic pt-2 border-t border-border">
+                  If these are already included in your original cost, set them to 0% or toggle "Already included" to Yes.
+                </p>
               </div>
             </div>
           </Card>
@@ -222,7 +231,7 @@ export function Step1Input({ onNext }: Step1InputProps) {
           <Card className="p-5 border-border shadow-sm">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <span className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">3</span>
-              NRV (Resale)
+              Resale Costs
             </h3>
 
             <div className="space-y-4">
@@ -283,56 +292,22 @@ export function Step1Input({ onNext }: Step1InputProps) {
           </Card>
         </div>
 
-        {/* Policy Choice */}
+        {/* Currency Selection */}
         <Card className="p-5 border-border shadow-sm">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <span className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">4</span>
-            Valuation Policy
-          </h3>
-
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label className="text-sm">Valuation Method</Label>
-              <RadioGroup value={inputs.valuationMethod} onValueChange={(value: any) => updateInput('valuationMethod', value)}>
-                <div className="flex items-center space-x-2 p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="nrv" id="nrv" />
-                  <Label htmlFor="nrv" className="flex-1 cursor-pointer">
-                    <div className="text-sm font-medium">NRV Only</div>
-                    <div className="text-xs text-muted-foreground">Net Realizable Value</div>
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2 p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="age" id="age" />
-                  <Label htmlFor="age" className="flex-1 cursor-pointer">
-                    <div className="text-sm font-medium">Age-Based Only</div>
-                    <div className="text-xs text-muted-foreground">Time depreciation</div>
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2 p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="conservative" id="conservative" />
-                  <Label htmlFor="conservative" className="flex-1 cursor-pointer">
-                    <div className="text-sm font-medium">Conservative - Both</div>
-                    <div className="text-xs text-muted-foreground">Lower of NRV/age-based</div>
-                  </Label>
-                </div>
-              </RadioGroup>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-sm">Currency</Label>
-              <Select value={inputs.currency} onValueChange={(value) => updateInput('currency', value)}>
-                <SelectTrigger className="h-9">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="$">$ USD</SelectItem>
-                  <SelectItem value="€">€ EUR</SelectItem>
-                  <SelectItem value="£">£ GBP</SelectItem>
-                  <SelectItem value="₹">₹ INR</SelectItem>
-                  <SelectItem value="¥">¥ JPY</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Currency</Label>
+            <Select value={inputs.currency} onValueChange={(value) => updateInput('currency', value)}>
+              <SelectTrigger className="h-9 w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="$">$ USD</SelectItem>
+                <SelectItem value="€">€ EUR</SelectItem>
+                <SelectItem value="£">£ GBP</SelectItem>
+                <SelectItem value="₹">₹ INR</SelectItem>
+                <SelectItem value="¥">¥ JPY</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </Card>
 
