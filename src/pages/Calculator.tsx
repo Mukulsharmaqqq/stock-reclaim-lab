@@ -41,13 +41,23 @@ const Calculator = () => {
       {/* Progress Indicator */}
       <div className="border-b border-border bg-muted/30">
         <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center gap-2 max-w-md mx-auto">
-            <div className={`flex items-center gap-2 ${step >= 1 ? 'text-primary' : 'text-muted-foreground'}`}>
-              <span className="font-medium text-sm">Input Data</span>
+          <div className="flex items-center gap-3 max-w-lg mx-auto">
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${step >= 1 ? 'bg-primary/10 text-primary' : 'text-muted-foreground'}`}>
+              <span className="font-semibold text-sm">Input Data</span>
             </div>
-            <div className={`h-0.5 flex-1 ${step >= 2 ? 'bg-primary' : 'bg-border'} transition-colors duration-500`} />
-            <div className={`flex items-center gap-2 ${step >= 2 ? 'text-primary' : 'text-muted-foreground'}`}>
-              <span className="font-medium text-sm">Results & Report</span>
+            <div className="flex-1 flex items-center gap-2">
+              <div className={`h-0.5 flex-1 ${step >= 2 ? 'bg-primary' : 'bg-border'} transition-all duration-500`} />
+              <svg 
+                className={`w-4 h-4 transition-all duration-500 ${step >= 2 ? 'text-primary translate-x-1' : 'text-muted-foreground'}`} 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${step >= 2 ? 'bg-primary/10 text-primary' : 'text-muted-foreground'}`}>
+              <span className="font-semibold text-sm">Results & Report</span>
             </div>
           </div>
         </div>
