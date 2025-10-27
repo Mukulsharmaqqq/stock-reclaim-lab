@@ -26,15 +26,15 @@ const ageButtons = [
 
 export function Step1Input({ onNext }: Step1InputProps) {
   const [inputs, setInputs] = useState<InventoryInputs>({
-    originalCost: 12000,
-    ageMonths: 8,
-    currentMarketValue: 9000,
-    freightPercent: 10,
-    laborPercent: 25,
-    overheadPercent: 15,
+    originalCost: 0,
+    ageMonths: 0,
+    currentMarketValue: 0,
+    freightPercent: 0,
+    laborPercent: 0,
+    overheadPercent: 0,
     costsIncluded: false,
-    costToComplete: 1000,
-    costToSell: 500,
+    costToComplete: 0,
+    costToSell: 0,
     valuationMethod: 'conservative',
     currency: '$',
     ageReserveTable: defaultAgeReserves,
@@ -47,9 +47,12 @@ export function Step1Input({ onNext }: Step1InputProps) {
   const handleSubmit = () => {
     // Validate required fields
     if (!inputs.originalCost || inputs.originalCost <= 0) {
-      return; // Will be handled by browser validation
+      return;
     }
-    if (!inputs.currentMarketValue || inputs.currentMarketValue < 0) {
+    if (inputs.currentMarketValue < 0) {
+      return;
+    }
+    if (!inputs.ageMonths || inputs.ageMonths <= 0) {
       return;
     }
     onNext(inputs);
@@ -65,12 +68,11 @@ export function Step1Input({ onNext }: Step1InputProps) {
       >
         {/* Basic Information */}
         <Card className="p-5 border-border shadow-sm">
-          <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-            <span className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">1</span>
+          <h3 className="text-lg font-semibold mb-2">
             Basic Information
           </h3>
-          <p className="text-sm text-muted-foreground mb-4 pl-9">
-            This calculator is for a specific product line, batch, or item — not your entire inventory. Run it per category or item if needed.
+          <p className="text-sm text-muted-foreground mb-4">
+            This calculator is for a specific product line, batch, or item, not your entire inventory. Run it per category or item if needed.
           </p>
           
           <div className="grid md:grid-cols-3 gap-4">
@@ -93,8 +95,9 @@ export function Step1Input({ onNext }: Step1InputProps) {
                 <Input
                   id="originalCost"
                   type="number"
-                  value={inputs.originalCost}
+                  value={inputs.originalCost || ''}
                   onChange={(e) => updateInput('originalCost', parseFloat(e.target.value) || 0)}
+                  placeholder="12000"
                   className="pl-7 h-9"
                   required
                   min="0.01"
@@ -121,8 +124,9 @@ export function Step1Input({ onNext }: Step1InputProps) {
                 <Input
                   id="currentMarketValue"
                   type="number"
-                  value={inputs.currentMarketValue}
+                  value={inputs.currentMarketValue || ''}
                   onChange={(e) => updateInput('currentMarketValue', parseFloat(e.target.value) || 0)}
+                  placeholder="9000"
                   className="pl-7 h-9"
                   required
                   min="0"
@@ -138,7 +142,7 @@ export function Step1Input({ onNext }: Step1InputProps) {
                     key={btn.value}
                     type="button"
                     size="sm"
-                    variant={Math.abs(inputs.ageMonths - btn.value) < 2 ? "default" : "outline"}
+                    variant={inputs.ageMonths === btn.value ? "default" : "outline"}
                     onClick={() => updateInput('ageMonths', btn.value)}
                     className="flex-1 h-9 text-xs"
                   >
@@ -154,8 +158,7 @@ export function Step1Input({ onNext }: Step1InputProps) {
         <div className="grid md:grid-cols-2 gap-5">
           {/* Cost Components */}
           <Card className="p-5 border-border shadow-sm">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <span className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">2</span>
+            <h3 className="text-lg font-semibold mb-4">
               Cost Components
             </h3>
 
@@ -229,8 +232,7 @@ export function Step1Input({ onNext }: Step1InputProps) {
 
           {/* NRV Components */}
           <Card className="p-5 border-border shadow-sm">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <span className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">3</span>
+            <h3 className="text-lg font-semibold mb-4">
               Resale Costs
             </h3>
 
@@ -254,8 +256,9 @@ export function Step1Input({ onNext }: Step1InputProps) {
                   <Input
                     id="costToComplete"
                     type="number"
-                    value={inputs.costToComplete}
+                    value={inputs.costToComplete || ''}
                     onChange={(e) => updateInput('costToComplete', parseFloat(e.target.value) || 0)}
+                    placeholder="1000"
                     className="pl-7 h-9"
                     min="0"
                   />
@@ -281,8 +284,9 @@ export function Step1Input({ onNext }: Step1InputProps) {
                   <Input
                     id="costToSell"
                     type="number"
-                    value={inputs.costToSell}
+                    value={inputs.costToSell || ''}
                     onChange={(e) => updateInput('costToSell', parseFloat(e.target.value) || 0)}
+                    placeholder="500"
                     className="pl-7 h-9"
                     min="0"
                   />
@@ -320,9 +324,9 @@ export function Step1Input({ onNext }: Step1InputProps) {
             onClick={handleSubmit} 
             size="lg" 
             className="w-full group"
-            disabled={!inputs.originalCost || inputs.originalCost <= 0 || !inputs.currentMarketValue || inputs.currentMarketValue < 0}
+            disabled={!inputs.originalCost || inputs.originalCost <= 0 || inputs.currentMarketValue < 0 || !inputs.ageMonths || inputs.ageMonths <= 0}
           >
-            Generate Results
+            Find Inventory Valuation
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </Button>
         </motion.div>

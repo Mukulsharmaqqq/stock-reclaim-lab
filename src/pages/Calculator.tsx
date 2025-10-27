@@ -28,50 +28,39 @@ const Calculator = () => {
         animate={{ opacity: 1, y: 0 }}
         className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50"
       >
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-primary">
-              <BarChart3 className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">Inventory Valuation Calculator</h1>
-              <p className="text-sm text-muted-foreground">
-                Discover how much capital is locked in obsolete stock—and unlock it in minutes
-              </p>
-            </div>
+        <div className="container mx-auto px-4 py-5">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-1">Inventory Valuation Calculator</h1>
+            <p className="text-sm text-muted-foreground">
+              Find how much capital is locked in obsolete stock and unlock it in minutes
+            </p>
           </div>
         </div>
       </motion.header>
 
       {/* Progress Indicator */}
       <div className="border-b border-border bg-muted/30">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-4">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center gap-2 max-w-md mx-auto">
             <div className={`flex items-center gap-2 ${step >= 1 ? 'text-primary' : 'text-muted-foreground'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold border-2 ${step >= 1 ? 'bg-primary text-primary-foreground border-primary' : 'border-muted-foreground'}`}>
-                1
-              </div>
-              <span className="font-medium hidden sm:inline">Input Data</span>
+              <span className="font-medium text-sm">Input Data</span>
             </div>
             <div className={`h-0.5 flex-1 ${step >= 2 ? 'bg-primary' : 'bg-border'} transition-colors duration-500`} />
             <div className={`flex items-center gap-2 ${step >= 2 ? 'text-primary' : 'text-muted-foreground'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold border-2 ${step >= 2 ? 'bg-primary text-primary-foreground border-primary' : 'border-muted-foreground'}`}>
-                2
-              </div>
-              <span className="font-medium hidden sm:inline">Results & Report</span>
+              <span className="font-medium text-sm">Results & Report</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 md:py-12">
+      <main className="container mx-auto px-4 py-6 md:py-8">
         {step === 1 && <Step1Input onNext={handleNext} />}
         {step === 2 && inputs && <Step2Results inputs={inputs} onBack={handleBack} />}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border mt-16 py-8 bg-muted/30">
+      <footer className="border-t border-border mt-12 py-6 bg-muted/30">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           <p>© 2025 Inventory Valuation Calculator. Professional financial analysis tool.</p>
         </div>

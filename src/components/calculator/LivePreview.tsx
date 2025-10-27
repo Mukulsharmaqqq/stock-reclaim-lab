@@ -62,11 +62,11 @@ export function LivePreview({ inputs }: LivePreviewProps) {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex items-start gap-2 p-3 rounded-lg bg-warning/10 border border-warning/20"
+                className="flex items-start gap-3 p-4 rounded-lg bg-warning/10 border border-warning/20"
               >
-                <AlertCircle className="h-4 w-4 text-warning mt-0.5 flex-shrink-0" />
-                <p className="text-xs text-warning-foreground">
-                  Significant write-down detected. Consider reviewing valuation method.
+                <AlertCircle className="h-5 w-5 text-warning mt-0.5 flex-shrink-0" />
+                <p className="text-sm font-medium text-warning-foreground leading-relaxed">
+                  Significant write-down detected. Consider reviewing your inputs.
                 </p>
               </motion.div>
             )}
