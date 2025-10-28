@@ -70,12 +70,15 @@ export function calculateInventoryValues(inputs: InventoryInputs): CalculationRe
   
   switch (inputs.valuationMethod) {
     case 'nrv':
+      // NRV only: lower of Cost Basis or NRV
       adjustedInventoryValue = Math.min(costBasis, netRealizableValue);
       break;
     case 'age':
-      adjustedInventoryValue = ageAdjustedValue;
+      // Age-policy only: lower of Cost Basis or Age-Adjusted Value
+      adjustedInventoryValue = Math.min(costBasis, ageAdjustedValue);
       break;
     case 'conservative':
+      // Conservative: lowest of Cost Basis, NRV, and Age-Adjusted Value
       adjustedInventoryValue = Math.min(costBasis, netRealizableValue, ageAdjustedValue);
       break;
     default:
