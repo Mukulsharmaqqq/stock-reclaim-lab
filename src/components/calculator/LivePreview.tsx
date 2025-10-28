@@ -52,14 +52,14 @@ export function LivePreview({ inputs }: LivePreviewProps) {
                 </motion.span>
               </div>
 
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Age Reserve Applied</span>
+              <div className="flex justify-between items-center p-2 rounded-md bg-warning/10 border border-warning/20">
+                <span className="text-sm font-medium">Age Reserve Applied</span>
                 <motion.span 
                   key={`age-${inputs.ageMonths}`}
-                  initial={{ scale: 1.1, color: "hsl(var(--warning))" }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="font-medium text-warning"
+                  initial={{ scale: 1.3, backgroundColor: "hsl(var(--warning) / 0.3)" }}
+                  animate={{ scale: 1, backgroundColor: "transparent" }}
+                  transition={{ duration: 0.4 }}
+                  className="font-bold text-lg text-warning px-2 py-0.5 rounded"
                 >
                   {inputs.ageMonths < 3 ? '0%' : inputs.ageMonths < 6 ? '10%' : inputs.ageMonths < 12 ? '25%' : '50%'}
                 </motion.span>

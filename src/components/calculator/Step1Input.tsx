@@ -144,7 +144,9 @@ export function Step1Input({ onNext }: Step1InputProps) {
                     size="sm"
                     variant={inputs.ageMonths === btn.value ? "default" : "outline"}
                     onClick={() => updateInput('ageMonths', btn.value)}
-                    className="flex-1 h-9 text-xs"
+                    className={`flex-1 h-9 text-xs font-semibold transition-all ${
+                      inputs.ageMonths === btn.value ? 'ring-2 ring-primary ring-offset-1 shadow-md' : ''
+                    }`}
                   >
                     {btn.label}
                   </Button>
